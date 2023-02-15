@@ -2,13 +2,15 @@
 
 (There's currently only one, but let's pretend that I will add more things here later...)
 
+Also feel free to check out [my UI library](https://github.com/imevul/ui) if you want.
+
 ## VTerm - A virtual terminal
 
 _Send your screen over rednet!_
 
 For a minimal setup, see the [examples](https://github.com/imevul/peripherals/examples)
 
-![img.png](img.png)
+![A screenshot of a server rendering its output to both a monitor and a virtual terminal, and a pocket computer connected to it.](img.png)
 
 ### Server setup
 ```lua
