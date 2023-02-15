@@ -1,21 +1,22 @@
-local class = require 'lib.classy'
+local VTerm = {}
+VTerm.ALLOWED_EVENTS_SERVER = {
+	'monitor_resize',
+	'term_resize',
+}
 
-local VTerm = class('VTerm')
-VTerm.ALLOWED_EVENTS = {
+VTerm.ALLOWED_EVENTS_CLIENT = {
 	'char',
 	'key',
 	'key_up',
-	'monitor_resize',
 	'monitor_touch',
 	'mouse_click',
 	'mouse_drag',
 	'mouse_scroll',
 	'mouse_up',
 	'paste',
-	'term_resize',
 }
 
-function VTerm:__init(modem, passthrough)
+function VTerm:init(modem, passthrough)
 	self.protocol = 'vterm'
 	self.hostname = os.getComputerLabel() or tostring(os.getComputerID())
 	self.server = nil
@@ -28,6 +29,7 @@ function VTerm:__init(modem, passthrough)
 	self._isRunning = false
 
 	self:_setup()
+	return self
 end
 
 function VTerm:host()
@@ -74,7 +76,7 @@ function VTerm:_setup()
 	for k, v in pairs(self._native) do
 		if type(k) == 'string' and type(v) == 'function' and rawget(self, k) == nil then
 			self[k] = function(...)
-				self:_rpc(k, { ... })
+				self:_rpc(k, {...})
 				return self._redirectTarget[k](...)
 			end
 		end
@@ -119,9 +121,9 @@ function VTerm:forwardEvent(eventData, filter)
 	end
 
 	if self.isServer then
-		filter = { 'term_resize', 'monitor_resize' }
+		filter = VTerm.ALLOWED_EVENTS_SERVER
 	else
-		filter = filter or VTerm.ALLOWED_EVENTS
+		filter = filter or VTerm.ALLOWED_EVENTS_CLIENT
 	end
 
 	local event = eventData[1]

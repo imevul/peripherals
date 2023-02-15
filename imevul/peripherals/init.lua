@@ -1,5 +1,5 @@
--- Set up path for IGL
-package.path = package.path .. ';/usr/lib/imevul/peripherals/?.lua'
+local currentDir = '/' .. fs.getDir(table.pack(...)[2]) or ""
+package.path = package.path .. ';' .. currentDir .. '/?.lua'
 local VTerm = require 'vterm'
 
 return { VTerm = VTerm }

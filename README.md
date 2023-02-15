@@ -21,7 +21,7 @@ local VTerm = require 'vterm'
 local optionalPassthroughTarget = peripheral.find('monitor')
 
 -- Create virtual terminal server
-local vterm = VTerm(optionalModem, optionalPassthroughTarget):host()
+local vterm = VTerm:init(optionalModem, optionalPassthroughTarget):host()
 
 -- Redirect terminal output to the virtual terminal.
 -- Everything will still be drawn to the previous terminal because the virtual terminal
@@ -60,7 +60,7 @@ vterm:close()
 local VTerm = require 'vterm'
 
 local id = 1 -- ID of server. Use rednet.lookup('vterm') if you want
-local vterm = VTerm(optionalModem):connect(id)
+local vterm = VTerm:init(optionalModem):connect(id)
 
 -- Redirect output from server to current local terminal
 vterm:redirect(term.current())
@@ -77,7 +77,7 @@ vterm:handleEvents()()
 -- or if you use parallel
 parallel.waitForAny(vterm:handleEvents())
 
--- Redirect back to old term. This vterm is now unusable
+-- Redirect back to old term
 vterm.close()
 ```
 

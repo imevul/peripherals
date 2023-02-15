@@ -1,6 +1,6 @@
 local VTerm = require 'vterm'
 
-local vterm = VTerm():host()
+local vterm = VTerm:init():host()
 term.redirect(vterm)
 
 function main()
@@ -21,3 +21,4 @@ function main()
 end
 
 parallel.waitForAny(main, vterm:handleEvents())
+vterm:close(true)
